@@ -106,14 +106,16 @@ OrphanServiceClient.prototype.doStream = function doStream(requestMessage, metad
 };
 
 exports.OrphanServiceClient = OrphanServiceClient;
-function OrphanServicePromisesClient(serviceHost, options) {
+function OrphanServicePromisesClient(serviceHost, options, alwaysMetadata) {
   this.client = new OrphanServiceClient(serviceHost, options);
+  this.alwaysMetadata = alwaysMetadata || {};
 }
 
-OrphanServicePromisesClient.prototype.doUnary = function doUnary(requestMessage) {
+OrphanServicePromisesClient.prototype.doUnary = function doUnary(requestMessage, metadata) {
   var client = this.client;
+  var allMetadata = Object.assign({}, this.alwaysMetadata, metadata || {});
   return new Promise(function (resolve, reject) {
-    client.doUnary(requestMessage, function(error, responseMessage) {
+    client.doUnary(requestMessage, allMetadata, function(error, responseMessage) {
       if (error !== null) {
         reject(error);
       } else {

@@ -252,14 +252,16 @@ SimpleServiceClient.prototype.delete = function pb_delete(requestMessage, metada
 };
 
 exports.SimpleServiceClient = SimpleServiceClient;
-function SimpleServicePromisesClient(serviceHost, options) {
+function SimpleServicePromisesClient(serviceHost, options, alwaysMetadata) {
   this.client = new SimpleServiceClient(serviceHost, options);
+  this.alwaysMetadata = alwaysMetadata || {};
 }
 
-SimpleServicePromisesClient.prototype.doUnary = function doUnary(requestMessage) {
+SimpleServicePromisesClient.prototype.doUnary = function doUnary(requestMessage, metadata) {
   var client = this.client;
+  var allMetadata = Object.assign({}, this.alwaysMetadata, metadata || {});
   return new Promise(function (resolve, reject) {
-    client.doUnary(requestMessage, function(error, responseMessage) {
+    client.doUnary(requestMessage, allMetadata, function(error, responseMessage) {
       if (error !== null) {
         reject(error);
       } else {
@@ -272,10 +274,11 @@ SimpleServicePromisesClient.prototype.doUnary = function doUnary(requestMessage)
 
 
 
-SimpleServicePromisesClient.prototype.delete = function pb_delete(requestMessage) {
+SimpleServicePromisesClient.prototype.delete = function pb_delete(requestMessage, metadata) {
   var client = this.client;
+  var allMetadata = Object.assign({}, this.alwaysMetadata, metadata || {});
   return new Promise(function (resolve, reject) {
-    client.pb_delete(requestMessage, function(error, responseMessage) {
+    client.pb_delete(requestMessage, allMetadata, function(error, responseMessage) {
       if (error !== null) {
         reject(error);
       } else {

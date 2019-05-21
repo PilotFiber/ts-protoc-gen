@@ -75,9 +75,10 @@ export class OrphanServiceClient {
 export class OrphanServicePromisesClient {
   readonly serviceHost: string;
 
-  constructor(serviceHost: string, options?: grpc.RpcOptions);
+  constructor(serviceHost: string, options?: grpc.RpcOptions, alwaysMetadata?: grpc.Metadata);
   doUnary(
     requestMessage: proto_orphan_pb.OrphanUnaryRequest,
+    metadata?: grpc.Metadata,
   ): Promise<proto_orphan_pb.OrphanMessage>;
 }
 

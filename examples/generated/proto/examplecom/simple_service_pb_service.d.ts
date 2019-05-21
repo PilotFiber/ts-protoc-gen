@@ -118,12 +118,14 @@ export class SimpleServiceClient {
 export class SimpleServicePromisesClient {
   readonly serviceHost: string;
 
-  constructor(serviceHost: string, options?: grpc.RpcOptions);
+  constructor(serviceHost: string, options?: grpc.RpcOptions, alwaysMetadata?: grpc.Metadata);
   doUnary(
     requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
+    metadata?: grpc.Metadata,
   ): Promise<proto_othercom_external_child_message_pb.ExternalChildMessage>;
   delete(
     requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
+    metadata?: grpc.Metadata,
   ): Promise<proto_examplecom_simple_service_pb.UnaryResponse>;
 }
 
