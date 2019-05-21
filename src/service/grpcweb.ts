@@ -328,8 +328,10 @@ function printServiceStub(methodPrinter: Printer, service: RPCDescriptor) {
 function printServicePromisesStub(methodPrinter: Printer, service: RPCDescriptor) {
   const printer = new CodePrinter(0, methodPrinter);
 
-  printer.printLn(`function ${service.name}PromisesClient(serviceHost, options) {`)
-    .indent().printLn(`this.client = new ${service.name}Client(serviceHost, options);`)
+  printer.printLn(`function ${service.name}PromisesClient(serviceHost, options, alwaysMetadata) {`)
+    .indent()
+      .printLn(`this.client = new ${service.name}Client(serviceHost, options);`)
+      .printLn(`this.alwaysMetadata = alwaysMetadata || {};`)
     .dedent().printLn(`}`)
     .printEmptyLn();
 
@@ -377,10 +379,11 @@ function printUnaryStubMethod(printer: CodePrinter, method: RPCMethodDescriptor)
 }
 
 function printUnaryPromiseStubMethod(printer: CodePrinter, method: RPCMethodDescriptor) {
-  printer.printLn(`${method.serviceName}PromisesClient.prototype.${method.nameAsCamelCase} = function ${method.functionName}(requestMessage) {`)
+  printer.printLn(`${method.serviceName}PromisesClient.prototype.${method.nameAsCamelCase} = function ${method.functionName}(requestMessage, metadata) {`)
     .indent().printLn(`var client = this.client;`)
+              .printLn(`var allMetadata = Object.assign({}, this.alwaysMetadata, metadata || {});`)
              .printLn(`return new Promise(function (resolve, reject) {`)
-      .indent().printLn(`client.${method.functionName}(requestMessage, function(error, responseMessage) {`)
+      .indent().printLn(`client.${method.functionName}(requestMessage, allMetadata, function(error, responseMessage) {`)
         .indent().printLn(`if (error !== null) {`)
           .indent().printLn(`reject(error);`)
         .dedent().printLn(`} else {`)
@@ -531,7 +534,7 @@ function printPromiseServiceStubTypes(methodPrinter: Printer, service: RPCDescri
   printer.printLn(`export class ${service.name}PromisesClient {`)
     .indent().printLn(`readonly serviceHost: string;`)
     .printEmptyLn()
-    .printLn(`constructor(serviceHost: string, options?: grpc.RpcOptions);`);
+    .printLn(`constructor(serviceHost: string, options?: grpc.RpcOptions, alwaysMetadata?: grpc.Metadata);`);
 
   service.methods.forEach((method: RPCMethodDescriptor) => {
     if (!method.requestStream && !method.responseStream) {
@@ -567,7 +570,9 @@ function printServiceStubTypes(methodPrinter: Printer, service: RPCDescriptor) {
 
 function printUnaryPromiseStubMethodTypes(printer: CodePrinter, method: RPCMethodDescriptor) {
   printer.printLn(`${method.nameAsCamelCase}(`)
-    .indent().printLn(`requestMessage: ${method.requestType},`)
+    .indent()
+      .printLn(`requestMessage: ${method.requestType},`)
+      .printLn(`metadata?: grpc.Metadata,`)
     .dedent().printLn(`): Promise<${method.responseType}>;`);
 }
 
