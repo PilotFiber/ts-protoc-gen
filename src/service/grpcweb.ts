@@ -543,6 +543,16 @@ function printPromiseServiceStubTypes(methodPrinter: Printer, service: RPCDescri
   });
 
   printer.dedent().printLn("}");
+
+  printer.printLn(`export interface I${service.name}PromisesClient {`);
+
+  service.methods.forEach((method: RPCMethodDescriptor) => {
+    if (!method.requestStream && !method.responseStream) {
+      printUnaryPromiseStubMethodTypes(printer, method);
+    }
+  });
+
+  printer.dedent().printLn("}");
 }
 
 function printServiceStubTypes(methodPrinter: Printer, service: RPCDescriptor) {
@@ -553,6 +563,21 @@ function printServiceStubTypes(methodPrinter: Printer, service: RPCDescriptor) {
     .indent().printLn(`readonly serviceHost: string;`)
         .printEmptyLn()
              .printLn(`constructor(serviceHost: string, options?: grpc.RpcOptions);`);
+
+  service.methods.forEach((method: RPCMethodDescriptor) => {
+    if (method.requestStream && method.responseStream) {
+      printBidirectionalStubMethodTypes(printer, method);
+    } else if (method.requestStream) {
+      printClientStreamStubMethodTypes(printer, method);
+    } else if (method.responseStream) {
+      printServerStreamStubMethodTypes(printer, method);
+    } else {
+      printUnaryStubMethodTypes(printer, method);
+    }
+  });
+  printer.dedent().printLn("}");
+
+  printer.printLn(`export interface I${service.name}Client {`);
 
   service.methods.forEach((method: RPCMethodDescriptor) => {
     if (method.requestStream && method.responseStream) {
