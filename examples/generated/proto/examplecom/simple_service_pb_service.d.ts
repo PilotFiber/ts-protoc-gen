@@ -114,6 +114,29 @@ export class SimpleServiceClient {
     callback: (error: ServiceError|null, responseMessage: proto_examplecom_simple_service_pb.UnaryResponse|null) => void
   ): UnaryResponse;
 }
+export interface ISimpleServiceClient {
+doUnary(
+  requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
+  metadata: grpc.Metadata,
+  callback: (error: ServiceError|null, responseMessage: proto_othercom_external_child_message_pb.ExternalChildMessage|null) => void
+): UnaryResponse;
+doUnary(
+  requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
+  callback: (error: ServiceError|null, responseMessage: proto_othercom_external_child_message_pb.ExternalChildMessage|null) => void
+): UnaryResponse;
+doServerStream(requestMessage: proto_examplecom_simple_service_pb.StreamRequest, metadata?: grpc.Metadata): ResponseStream<proto_othercom_external_child_message_pb.ExternalChildMessage>;
+doClientStream(metadata?: grpc.Metadata): RequestStream<proto_examplecom_simple_service_pb.StreamRequest>;
+doBidiStream(metadata?: grpc.Metadata): BidirectionalStream<proto_examplecom_simple_service_pb.StreamRequest, proto_othercom_external_child_message_pb.ExternalChildMessage>;
+delete(
+  requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
+  metadata: grpc.Metadata,
+  callback: (error: ServiceError|null, responseMessage: proto_examplecom_simple_service_pb.UnaryResponse|null) => void
+): UnaryResponse;
+delete(
+  requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
+  callback: (error: ServiceError|null, responseMessage: proto_examplecom_simple_service_pb.UnaryResponse|null) => void
+): UnaryResponse;
+}
 
 export class SimpleServicePromisesClient {
   readonly serviceHost: string;
@@ -127,5 +150,15 @@ export class SimpleServicePromisesClient {
     requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
     metadata?: grpc.Metadata,
   ): Promise<proto_examplecom_simple_service_pb.UnaryResponse>;
+}
+export interface ISimpleServicePromisesClient {
+doUnary(
+  requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
+  metadata?: grpc.Metadata,
+): Promise<proto_othercom_external_child_message_pb.ExternalChildMessage>;
+delete(
+  requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
+  metadata?: grpc.Metadata,
+): Promise<proto_examplecom_simple_service_pb.UnaryResponse>;
 }
 

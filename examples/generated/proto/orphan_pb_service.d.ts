@@ -71,6 +71,18 @@ export class OrphanServiceClient {
   ): UnaryResponse;
   doStream(requestMessage: proto_orphan_pb.OrphanStreamRequest, metadata?: grpc.Metadata): ResponseStream<proto_orphan_pb.OrphanMessage>;
 }
+export interface IOrphanServiceClient {
+doUnary(
+  requestMessage: proto_orphan_pb.OrphanUnaryRequest,
+  metadata: grpc.Metadata,
+  callback: (error: ServiceError|null, responseMessage: proto_orphan_pb.OrphanMessage|null) => void
+): UnaryResponse;
+doUnary(
+  requestMessage: proto_orphan_pb.OrphanUnaryRequest,
+  callback: (error: ServiceError|null, responseMessage: proto_orphan_pb.OrphanMessage|null) => void
+): UnaryResponse;
+doStream(requestMessage: proto_orphan_pb.OrphanStreamRequest, metadata?: grpc.Metadata): ResponseStream<proto_orphan_pb.OrphanMessage>;
+}
 
 export class OrphanServicePromisesClient {
   readonly serviceHost: string;
@@ -80,5 +92,11 @@ export class OrphanServicePromisesClient {
     requestMessage: proto_orphan_pb.OrphanUnaryRequest,
     metadata?: grpc.Metadata,
   ): Promise<proto_orphan_pb.OrphanMessage>;
+}
+export interface IOrphanServicePromisesClient {
+doUnary(
+  requestMessage: proto_orphan_pb.OrphanUnaryRequest,
+  metadata?: grpc.Metadata,
+): Promise<proto_orphan_pb.OrphanMessage>;
 }
 
