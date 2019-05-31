@@ -62,41 +62,41 @@ export class OrphanServiceClient {
   constructor(serviceHost: string, options?: grpc.RpcOptions);
   doUnary(
     requestMessage: proto_orphan_pb.OrphanUnaryRequest,
-    metadata: grpc.Metadata,
+    metadata: grpc.Metadata.ConstructorArg,
     callback: (error: ServiceError|null, responseMessage: proto_orphan_pb.OrphanMessage|null) => void
   ): UnaryResponse;
   doUnary(
     requestMessage: proto_orphan_pb.OrphanUnaryRequest,
     callback: (error: ServiceError|null, responseMessage: proto_orphan_pb.OrphanMessage|null) => void
   ): UnaryResponse;
-  doStream(requestMessage: proto_orphan_pb.OrphanStreamRequest, metadata?: grpc.Metadata): ResponseStream<proto_orphan_pb.OrphanMessage>;
+  doStream(requestMessage: proto_orphan_pb.OrphanStreamRequest, metadata?: grpc.Metadata.ConstructorArg): ResponseStream<proto_orphan_pb.OrphanMessage>;
 }
 export interface IOrphanServiceClient {
 doUnary(
   requestMessage: proto_orphan_pb.OrphanUnaryRequest,
-  metadata: grpc.Metadata,
+  metadata: grpc.Metadata.ConstructorArg,
   callback: (error: ServiceError|null, responseMessage: proto_orphan_pb.OrphanMessage|null) => void
 ): UnaryResponse;
 doUnary(
   requestMessage: proto_orphan_pb.OrphanUnaryRequest,
   callback: (error: ServiceError|null, responseMessage: proto_orphan_pb.OrphanMessage|null) => void
 ): UnaryResponse;
-doStream(requestMessage: proto_orphan_pb.OrphanStreamRequest, metadata?: grpc.Metadata): ResponseStream<proto_orphan_pb.OrphanMessage>;
+doStream(requestMessage: proto_orphan_pb.OrphanStreamRequest, metadata?: grpc.Metadata.ConstructorArg): ResponseStream<proto_orphan_pb.OrphanMessage>;
 }
 
 export class OrphanServicePromisesClient {
   readonly serviceHost: string;
 
-  constructor(serviceHost: string, options?: grpc.RpcOptions, alwaysMetadata?: grpc.Metadata);
+  constructor(serviceHost: string, options?: grpc.RpcOptions, alwaysMetadata?: grpc.Metadata.ConstructorArg);
   doUnary(
     requestMessage: proto_orphan_pb.OrphanUnaryRequest,
-    metadata?: grpc.Metadata,
+    metadata?: grpc.Metadata.ConstructorArg,
   ): Promise<proto_orphan_pb.OrphanMessage>;
 }
 export interface IOrphanServicePromisesClient {
 doUnary(
   requestMessage: proto_orphan_pb.OrphanUnaryRequest,
-  metadata?: grpc.Metadata,
+  metadata?: grpc.Metadata.ConstructorArg,
 ): Promise<proto_orphan_pb.OrphanMessage>;
 }
 

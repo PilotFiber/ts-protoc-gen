@@ -94,19 +94,19 @@ export class SimpleServiceClient {
   constructor(serviceHost: string, options?: grpc.RpcOptions);
   doUnary(
     requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
-    metadata: grpc.Metadata,
+    metadata: grpc.Metadata.ConstructorArg,
     callback: (error: ServiceError|null, responseMessage: proto_othercom_external_child_message_pb.ExternalChildMessage|null) => void
   ): UnaryResponse;
   doUnary(
     requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
     callback: (error: ServiceError|null, responseMessage: proto_othercom_external_child_message_pb.ExternalChildMessage|null) => void
   ): UnaryResponse;
-  doServerStream(requestMessage: proto_examplecom_simple_service_pb.StreamRequest, metadata?: grpc.Metadata): ResponseStream<proto_othercom_external_child_message_pb.ExternalChildMessage>;
-  doClientStream(metadata?: grpc.Metadata): RequestStream<proto_examplecom_simple_service_pb.StreamRequest>;
-  doBidiStream(metadata?: grpc.Metadata): BidirectionalStream<proto_examplecom_simple_service_pb.StreamRequest, proto_othercom_external_child_message_pb.ExternalChildMessage>;
+  doServerStream(requestMessage: proto_examplecom_simple_service_pb.StreamRequest, metadata?: grpc.Metadata.ConstructorArg): ResponseStream<proto_othercom_external_child_message_pb.ExternalChildMessage>;
+  doClientStream(metadata?: grpc.Metadata.ConstructorArg): RequestStream<proto_examplecom_simple_service_pb.StreamRequest>;
+  doBidiStream(metadata?: grpc.Metadata.ConstructorArg): BidirectionalStream<proto_examplecom_simple_service_pb.StreamRequest, proto_othercom_external_child_message_pb.ExternalChildMessage>;
   delete(
     requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
-    metadata: grpc.Metadata,
+    metadata: grpc.Metadata.ConstructorArg,
     callback: (error: ServiceError|null, responseMessage: proto_examplecom_simple_service_pb.UnaryResponse|null) => void
   ): UnaryResponse;
   delete(
@@ -117,19 +117,19 @@ export class SimpleServiceClient {
 export interface ISimpleServiceClient {
 doUnary(
   requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
-  metadata: grpc.Metadata,
+  metadata: grpc.Metadata.ConstructorArg,
   callback: (error: ServiceError|null, responseMessage: proto_othercom_external_child_message_pb.ExternalChildMessage|null) => void
 ): UnaryResponse;
 doUnary(
   requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
   callback: (error: ServiceError|null, responseMessage: proto_othercom_external_child_message_pb.ExternalChildMessage|null) => void
 ): UnaryResponse;
-doServerStream(requestMessage: proto_examplecom_simple_service_pb.StreamRequest, metadata?: grpc.Metadata): ResponseStream<proto_othercom_external_child_message_pb.ExternalChildMessage>;
-doClientStream(metadata?: grpc.Metadata): RequestStream<proto_examplecom_simple_service_pb.StreamRequest>;
-doBidiStream(metadata?: grpc.Metadata): BidirectionalStream<proto_examplecom_simple_service_pb.StreamRequest, proto_othercom_external_child_message_pb.ExternalChildMessage>;
+doServerStream(requestMessage: proto_examplecom_simple_service_pb.StreamRequest, metadata?: grpc.Metadata.ConstructorArg): ResponseStream<proto_othercom_external_child_message_pb.ExternalChildMessage>;
+doClientStream(metadata?: grpc.Metadata.ConstructorArg): RequestStream<proto_examplecom_simple_service_pb.StreamRequest>;
+doBidiStream(metadata?: grpc.Metadata.ConstructorArg): BidirectionalStream<proto_examplecom_simple_service_pb.StreamRequest, proto_othercom_external_child_message_pb.ExternalChildMessage>;
 delete(
   requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
-  metadata: grpc.Metadata,
+  metadata: grpc.Metadata.ConstructorArg,
   callback: (error: ServiceError|null, responseMessage: proto_examplecom_simple_service_pb.UnaryResponse|null) => void
 ): UnaryResponse;
 delete(
@@ -141,24 +141,24 @@ delete(
 export class SimpleServicePromisesClient {
   readonly serviceHost: string;
 
-  constructor(serviceHost: string, options?: grpc.RpcOptions, alwaysMetadata?: grpc.Metadata);
+  constructor(serviceHost: string, options?: grpc.RpcOptions, alwaysMetadata?: grpc.Metadata.ConstructorArg);
   doUnary(
     requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
-    metadata?: grpc.Metadata,
+    metadata?: grpc.Metadata.ConstructorArg,
   ): Promise<proto_othercom_external_child_message_pb.ExternalChildMessage>;
   delete(
     requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
-    metadata?: grpc.Metadata,
+    metadata?: grpc.Metadata.ConstructorArg,
   ): Promise<proto_examplecom_simple_service_pb.UnaryResponse>;
 }
 export interface ISimpleServicePromisesClient {
 doUnary(
   requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
-  metadata?: grpc.Metadata,
+  metadata?: grpc.Metadata.ConstructorArg,
 ): Promise<proto_othercom_external_child_message_pb.ExternalChildMessage>;
 delete(
   requestMessage: proto_examplecom_simple_service_pb.UnaryRequest,
-  metadata?: grpc.Metadata,
+  metadata?: grpc.Metadata.ConstructorArg,
 ): Promise<proto_examplecom_simple_service_pb.UnaryResponse>;
 }
 
