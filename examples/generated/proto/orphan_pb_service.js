@@ -113,7 +113,11 @@ function OrphanServicePromisesClient(serviceHost, options, alwaysMetadata) {
 
 OrphanServicePromisesClient.prototype.doUnary = function doUnary(requestMessage, metadata) {
   var client = this.client;
-  var allMetadata = Object.assign({}, this.alwaysMetadata, metadata || {});
+  var allMetadata = new grpc.Metadata(this.alwaysMetadata);
+  var newMetadata = new grpc.Metadata(metadata);
+  newMetadata.forEach((key, values) => {
+    allMetadata.append(key, values)
+  });
   return new Promise(function (resolve, reject) {
     client.doUnary(requestMessage, allMetadata, function(error, responseMessage) {
       if (error !== null) {

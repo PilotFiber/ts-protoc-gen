@@ -381,7 +381,13 @@ function printUnaryStubMethod(printer: CodePrinter, method: RPCMethodDescriptor)
 function printUnaryPromiseStubMethod(printer: CodePrinter, method: RPCMethodDescriptor) {
   printer.printLn(`${method.serviceName}PromisesClient.prototype.${method.nameAsCamelCase} = function ${method.functionName}(requestMessage, metadata) {`)
     .indent().printLn(`var client = this.client;`)
-              .printLn(`var allMetadata = Object.assign({}, this.alwaysMetadata, metadata || {});`)
+              .printLn(`var allMetadata = new grpc.Metadata(this.alwaysMetadata);`)
+              .printLn(`var newMetadata = new grpc.Metadata(metadata);`)
+              .printLn(`newMetadata.forEach((key, values) => {`)
+                  .indent()
+                  .printLn(`allMetadata.append(key, values)`)
+                  .dedent()
+              .printLn(`});`)
              .printLn(`return new Promise(function (resolve, reject) {`)
       .indent().printLn(`client.${method.functionName}(requestMessage, allMetadata, function(error, responseMessage) {`)
         .indent().printLn(`if (error !== null) {`)
@@ -534,7 +540,7 @@ function printPromiseServiceStubTypes(methodPrinter: Printer, service: RPCDescri
   printer.printLn(`export class ${service.name}PromisesClient {`)
     .indent().printLn(`readonly serviceHost: string;`)
     .printEmptyLn()
-    .printLn(`constructor(serviceHost: string, options?: grpc.RpcOptions, alwaysMetadata?: grpc.Metadata);`);
+    .printLn(`constructor(serviceHost: string, options?: grpc.RpcOptions, alwaysMetadata?: grpc.Metadata.ConstructorArg);`);
 
   service.methods.forEach((method: RPCMethodDescriptor) => {
     if (!method.requestStream && !method.responseStream) {
@@ -597,7 +603,7 @@ function printUnaryPromiseStubMethodTypes(printer: CodePrinter, method: RPCMetho
   printer.printLn(`${method.nameAsCamelCase}(`)
     .indent()
       .printLn(`requestMessage: ${method.requestType},`)
-      .printLn(`metadata?: grpc.Metadata,`)
+      .printLn(`metadata?: grpc.Metadata.ConstructorArg,`)
     .dedent().printLn(`): Promise<${method.responseType}>;`);
 }
 
@@ -605,7 +611,7 @@ function printUnaryStubMethodTypes(printer: CodePrinter, method: RPCMethodDescri
   printer
              .printLn(`${method.nameAsCamelCase}(`)
       .indent().printLn(`requestMessage: ${method.requestType},`)
-               .printLn(`metadata: grpc.Metadata,`)
+               .printLn(`metadata: grpc.Metadata.ConstructorArg,`)
                .printLn(`callback: (error: ServiceError|null, responseMessage: ${method.responseType}|null) => void`)
     .dedent().printLn(`): UnaryResponse;`)
              .printLn(`${method.nameAsCamelCase}(`)
@@ -615,13 +621,13 @@ function printUnaryStubMethodTypes(printer: CodePrinter, method: RPCMethodDescri
 }
 
 function printServerStreamStubMethodTypes(printer: CodePrinter, method: RPCMethodDescriptor) {
-  printer.printLn(`${method.nameAsCamelCase}(requestMessage: ${method.requestType}, metadata?: grpc.Metadata): ResponseStream<${method.responseType}>;`);
+  printer.printLn(`${method.nameAsCamelCase}(requestMessage: ${method.requestType}, metadata?: grpc.Metadata.ConstructorArg): ResponseStream<${method.responseType}>;`);
 }
 
 function printClientStreamStubMethodTypes(printer: CodePrinter, method: RPCMethodDescriptor) {
-  printer.printLn(`${method.nameAsCamelCase}(metadata?: grpc.Metadata): RequestStream<${method.requestType}>;`);
+  printer.printLn(`${method.nameAsCamelCase}(metadata?: grpc.Metadata.ConstructorArg): RequestStream<${method.requestType}>;`);
 }
 
 function printBidirectionalStubMethodTypes(printer: CodePrinter, method: RPCMethodDescriptor) {
-  printer.printLn(`${method.nameAsCamelCase}(metadata?: grpc.Metadata): BidirectionalStream<${method.requestType}, ${method.responseType}>;`);
+  printer.printLn(`${method.nameAsCamelCase}(metadata?: grpc.Metadata.ConstructorArg): BidirectionalStream<${method.requestType}, ${method.responseType}>;`);
 }
